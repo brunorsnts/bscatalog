@@ -1,5 +1,6 @@
 package com.santos.bscatalog.services;
 
+import com.santos.bscatalog.dto.CategoryDto;
 import com.santos.bscatalog.entities.Category;
 import com.santos.bscatalog.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -15,8 +17,9 @@ public class CategoryService {
     private CategoryRepository categoryRepository;
 
     @Transactional(readOnly = true)
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
+    public List<CategoryDto> findAll() {
+        List<Category> list = categoryRepository.findAll();
+        return list.stream().map(x -> new CategoryDto(x.getId(), x.getName())).collect(Collectors.toList());
     }
 
 

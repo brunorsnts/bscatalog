@@ -1,6 +1,6 @@
 package com.santos.bscatalog.resources;
 
-import com.santos.bscatalog.entities.Category;
+import com.santos.bscatalog.dto.CategoryDto;
 import com.santos.bscatalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,8 @@ public class CatogoryResource {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryDto>> findAll() {
+        List<CategoryDto> categories = categoryService.findAll();
         return ResponseEntity.ok().body(categories);
     }
 }
