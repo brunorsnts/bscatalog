@@ -31,4 +31,10 @@ public class CategoryService {
     }
 
 
+    public CategoryDto insert(CategoryDto dto) {
+        Category entity = new Category();
+        entity.setName(dto.name());
+        entity = categoryRepository.save(entity);
+        return new CategoryDto(entity.getId(), entity.getName());
+    }
 }
