@@ -1,7 +1,6 @@
 package com.santos.bscatalog.resources.exceptions;
 
-import com.santos.bscatalog.services.EntityNotFoundException;
-import jakarta.servlet.http.HttpServlet;
+import com.santos.bscatalog.services.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +12,8 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<StandError> entityNotFound(EntityNotFoundException e, HttpServletRequest request) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         StandError err = new StandError();
         err.setTimeStamp(Instant.now());
         err.setStatus(HttpStatus.NOT_FOUND.value());

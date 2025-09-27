@@ -3,6 +3,7 @@ package com.santos.bscatalog.services;
 import com.santos.bscatalog.dto.CategoryDto;
 import com.santos.bscatalog.entities.Category;
 import com.santos.bscatalog.repositories.CategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,15 +27,28 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDto findById(Long id) {
         Optional<Category> obj = categoryRepository.findById(id);
-        Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CategoryDto(entity.getId(), entity.getName());
     }
 
-
+    @Transactional
     public CategoryDto insert(CategoryDto dto) {
         Category entity = new Category();
         entity.setName(dto.name());
         entity = categoryRepository.save(entity);
         return new CategoryDto(entity.getId(), entity.getName());
+    }
+
+    @Transactional
+    public CategoryDto update(Long id, CategoryDto dto) {
+        try {
+            Category entity = categoryRepository.getReferenceById(id);
+            entity.setName(dto.name());
+            entity = categoryRepository.save(entity);
+            return new CategoryDto(entity.getId(), entity.getName());
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
     }
 }
